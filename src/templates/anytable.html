@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{title}}</title>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/anytable_style.css' )}}">
+    <meta charset="UTF-8">
+    <meta name="viewpoint" content="width=display-width">
+
+</head>
+
+<body class="content">
+    <div class="actionArea">
+        {% if add_option %}
+        <a href="#addpopup" title="Добавить" class="actionBTN">+</a>
+        {% endif%}
+        <a href="/" title="Выход" class="actionBTN">Выход</a>
+    </div>
+
+
+    <div class="title_place">
+        <div class="hamburger-menu">
+            <input id="menu__toggle" type="checkbox" />
+            <label class="menu__btn" for="menu__toggle">
+                <span></span>
+            </label>
+            <ul class="menu__box">
+                {% for item in menu%}
+                {% if item == title%}
+                <li><a class="menu__item" style="background-color: rgb(156, 197, 223, 0.3);" href="{{item.url}}">{{item.name}}</a> </li>
+                {% else %}
+                <li><a class="menu__item" href="{{item.url}}">{{item.name}}</a></li>
+                {%endif%}
+                {%endfor%}
+            </ul>
+        </div>
+
+        <p class="table_name"><b>{{title}}</b></p>
+        {% block find %} {% endblock %}
+
+    </div>
+
+    <div class="table_place">
+        <table class="table">
+            <thead>
+                <tr>
+                    {% for item in table_titles%}
+                    <th>{{item}}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% block content%}
+
+                {% endblock %}
+            </tbody>
+
+            <ul class="right-click-menu">
+                {% if up_option %}
+                <li id="l1"><a href="#updatepopup">Обновить</a></li>
+                {% endif %}
+                {% if del_option %}
+                <li id="l2"><a href="#deletepopup">Удалить</a></li>
+                {% endif %}
+            </ul>
+        </table>
+
+    </div>
+    
+    <div id="addpopup" class="popup  popup_link">
+        <div class="popup__body">
+            <div class="popup__content">
+                {% if add_option %}
+                {% block add_form%} {% endblock %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div id="updatepopup" class="popup  popup_link">
+        <div class="popup__body">
+            <div class="popup__content">
+                {% if up_option %}
+                {% block update_form%} {% endblock %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div id="deletepopup" class="popup  popup_link">
+        <div class="popup__body">
+            <div class="popup__content">
+                {% if del_option %}
+                {% block delete_form%} {% endblock %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div id="msgpopup" class="popup  popup_link">
+        <div class="popup__body">
+            <div class="popup__content">
+                <a href="" class="popup__close">X</a>
+                <p id="msgtitle" class="popup__title">{{msg_title}}</p>
+                <p id="msgtext" class="popup__text">{{msg}}</p>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const menuArea = document.querySelector("tbody");
+        const menu = document.querySelector(".right-click-menu");
+
+        menuArea.addEventListener("contextmenu", event => {
+
+            if (event.target.closest('tr')) {
+                window.tr = event.target.closest('tr');
+            }
+            event.preventDefault();
+
+            menu.style.top = `${event.clientY}px`;
+            menu.style.left = `${event.clientX}px`;
+            menu.classList.add("active");
+        }, false);
+
+        document.addEventListener("click", event => {
+            if (event.button !== 2) {
+                menu.classList.remove("active");
+            }
+        }, false);
+
+        menu.addEventListener("click", event => {
+            event.stopPropagation();
+        }, false);
+
+        //        document.querySelector("#l2").addEventListener("click", () => {
+        //            alert("Удалить");
+        //        }, false);
+
+    </script>
+
+    {%block user_script%} {% endblock %}
+
+</body>
+
+</html>

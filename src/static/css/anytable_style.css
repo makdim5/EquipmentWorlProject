@@ -1,0 +1,515 @@
+/*Обнуление*/
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+*,
+*:before,
+*:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+:focus,
+:active {
+    outline: none;
+}
+
+a:focus,
+a:active {
+    outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+    display: block;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    font-size: 100%;
+    line-height: 1;
+    font-size: 14px;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+input,
+button,
+textarea {
+    font-family: inherit;
+}
+
+input::-ms-clear {
+    display: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+a,
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+ul li {
+    list-style: none;
+}
+
+img {
+    vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+/*--------------------*/
+
+/*Основная работа*/
+
+
+/*Context menu*/
+.right-click-menu {
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    list-style: none;
+    background: white;
+    border: none;
+    border-radius: 2px;
+    box-shadow: 10px 12px 48px 0px rgba(0, 0, 0, 0.48);
+    -webkit-box-shadow: 10px 12px 48px 0px rgba(0, 0, 0, 0.48);
+    -moz-box-shadow: 10px 12px 48px 0px rgba(0, 0, 0, 0.48);
+    display: none;
+
+    opacity: 0;
+    /*Элемент полностью прозрачный (невидимый)*/
+
+    animation: show 0.5s 1;
+    /* Указываем название анимации, её время и количество повторов*/
+    animation-fill-mode: forwards;
+    /* Чтобы элемент оставался в конечном состоянии анимации */
+
+
+
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+        filter: blur(4px);
+    }
+
+    100% {
+        opacity: 1;
+        filter: blur(0px);
+    }
+}
+
+.right-click-menu.active {
+    display: block;
+}
+
+.right-click-menu li {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-size: 20px;
+    color: black;
+
+}
+
+.right-click-menu li:hover {
+    background: #E2F0F9;
+}
+
+/* Action btns*/
+
+.actionArea {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    justify-content: flex-end;
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    width: 50px;
+    min-height: 20%;
+}
+
+.actionBTN {
+    background-color: #305783;
+    font-size: 20px;
+    border-radius: 10px;
+    box-shadow: 18px 5px 25px 14px rgba(0, 0, 0, 0.31);
+    color: white;
+    margin: 5px;
+    flex: 1;
+}
+
+/*Gamburger menu*/
+#menu__toggle {
+    opacity: 0;
+}
+
+.hamburger-menu {
+    flex: 1;
+    max-width: 100px;
+}
+
+.menu__btn {
+    position: fixed;
+    top: 50px;
+    left: 20px;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    z-index: 1;
+
+
+}
+
+.menu__btn > span,
+.menu__btn > span::before,
+.menu__btn > span::after {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #616161;
+}
+
+
+.menu__btn > span::before {
+    content: '';
+    top: -8px;
+}
+
+.menu__btn > span::after {
+    content: '';
+    top: 8px;
+    
+}
+
+.menu__box {
+    display: block;
+    position: fixed;
+    visibility: hidden;
+    top: 0;
+    left: -100%;
+    width: 300px;
+    height: 100%;
+    margin: 0;
+    padding: 80px 0;
+    list-style: none;
+    text-align: center;
+    background-color: #305783;
+    box-shadow: 1px 0px 6px rgba(0, 0, 0, .2);
+    opacity: 95%;
+    overflow-y: auto;
+
+}
+
+.menu__item {
+    display: block;
+    padding: 12px 24px;
+    color: #333;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    opacity: 100%;
+}
+
+.menu__item:hover {
+    background-color: #CFD8DC;
+}
+
+#menu__toggle:checked ~ .menu__btn > span {
+    transform: rotate(45deg);
+}
+
+#menu__toggle:checked ~ .menu__btn > span::before {
+    top: 0;
+    transform: rotate(0);
+    background-color: white;
+}
+
+#menu__toggle:checked ~ .menu__btn > span::after {
+    top: 0;
+    transform: rotate(90deg);
+    background-color: white;
+}
+
+#menu__toggle:checked ~ .menu__box {
+    visibility: visible;
+    left: 0;
+}
+
+.menu__btn > span,
+.menu__btn > span::before,
+.menu__btn > span::after {
+    transition-duration: .25s;
+}
+
+.menu__box {
+    transition-duration: .25s;
+}
+
+.menu__item {
+    transition-duration: .25s;
+}
+
+a {
+    text-decoration: none;
+    /*убираем подчеркивание текста ссылок*/
+    background: white;
+    /*добавляем фон к пункту меню*/
+    color: black;
+    /*меняем цвет ссылок*/
+    padding: 0px 15px;
+    /*добавляем отступ*/
+    font-family: arial;
+    /*меняем шрифт*/
+    line-height: 50px;
+
+    display: block;
+}
+
+a:hover {
+    border-bottom: 5px solid #305783;
+}
+
+/*General doc*/
+
+
+.content {
+    display: flex;
+    flex-direction: column;
+
+
+
+}
+
+
+.title_place {
+
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 100px;
+}
+
+
+.table_name {
+    font-family: arial;
+    font-size: 30px;
+    flex: 2;
+    
+    margin: 2%;
+    top:15px;
+    min-width: 240px;
+}
+
+.search_form {
+    display: flex;
+    justify-content: center;
+    border: 3px solid #305783;
+    position: relative;
+    top: 10px;
+    right: 10px;
+    flex: 5;
+    margin-left: 10px;
+    max-height: 50%;
+    min-height: 60px;
+}
+
+
+.table_place {
+
+    margin: 20px;
+    overflow: auto;
+    box-shadow: 1px 6px 16px 0px rgba(0, 0, 0, 0.31);
+    -webkit-box-shadow: 1px 6px 16px 0px rgba(0, 0, 0, 0.31);
+    -moz-box-shadow: 1px 6px 16px 0px rgba(0, 0, 0, 0.31);
+
+
+}
+
+/* Table styles */
+.table {
+    width: 100%;
+    border: 5px solid #fff;
+    border-top: 5px solid #fff;
+    border-bottom: 3px solid #fff;
+    border-collapse: collapse;
+    font-size: 15px;
+    background: #fff !important;
+    min-height: 100vh;
+}
+
+.table th {
+    font-weight: bold;
+    padding: 7px;
+    background: #305783;
+    border: none;
+    font-family: arial;
+    text-align: left;
+    color: white;
+    font-size: 20px;
+    border-top: 3px solid #fff;
+    border-bottom: 3px solid #ffd300;
+
+}
+
+.table td {
+    padding: 7px;
+    border: none;
+    border-top: 3px solid #fff;
+    border-bottom: 3px solid #fff;
+    font-size: 18px;
+    font-family: arial;
+}
+
+.table tbody tr:nth-child(even) {
+    background: #f8f8f8 !important;
+}
+
+.field {
+
+    padding: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 20px;
+    border-radius: 10px;
+    border: none;
+    flex: 5;
+    width: 100%;
+    height: 50px;
+}
+
+
+
+.ok_btn {
+    font-size: 40px;
+
+    border: none;
+    background-color: transparent;
+    flex: 1;
+}
+
+.ok_btn:hover, .ok_btn:active{
+  -webkit-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  transform: scale(1.2);
+}
+
+
+
+
+/*Popup menu*/
+
+.popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0, 0.8);
+    top: 0;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: all 0.5s ease 0s;
+
+
+}
+
+.popup:target {
+    opacity: 1;
+    visibility: visible;
+}
+
+.popup:target .popup__content {
+    transform: translate(0px, 0px);
+    opacity: 1;
+}
+
+
+
+.popup__body {
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 10px;
+
+}
+
+.popup__content {
+    background-color: #fff;
+    color: black;
+    max-width: 800px;
+    padding: 30px;
+
+    transition: all 0.5s ease 0s;
+    opacity: 0;
+    transform: translate(0px, -100%);
+
+}
+
+.popup__close {
+
+    position: relative;
+    top: 10px;
+    left: 90%;
+    font-size: 40px;
+    background: none;
+    width: 40px;
+    color: #305783;
+
+
+}
+
+.popup__close:hover  {
+    border: 5px solid #305783;
+    border-radius: 5px;
+}
+
+.popup__title {
+    font-size: 40px;
+    margin-bottom: 1em;
+
+
+}
+
+.popup__text {
+    font-size: 20px;
+    margin-bottom: 1em;
+
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Аутентификация</title>
+
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/authentication_style.css' )}}">
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <div class="authenticatication_area">
+        <div class="img_block">
+            <img src="{{ url_for('static', filename='images/bcz_logo.png' )}}">
+        </div>
+        <div class="form_block">
+            <form method="post">
+                <p style="font-size: 30px; font-family: arial; margin-bottom: 10px;">Вход в систему</p>
+                <input name="login" class="field" type="text" placeholder="Введите логин"><br>
+
+                <input name="password" class="field" type="password" placeholder="Введите пароль"><br>
+                <input class="ok_btn" type="submit" value="Ok">
+            </form>
+        </div>
+
+    </div>
+
+
+
+</body>
+
+</html>

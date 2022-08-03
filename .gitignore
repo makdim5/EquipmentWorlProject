@@ -1,0 +1,7 @@
+__pycache__/
+srs/__pycache__/
+.idea/
+*.docx
+*.pdf
+Pipfile
+Pipfile.lock
