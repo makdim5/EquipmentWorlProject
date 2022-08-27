@@ -60,7 +60,7 @@ class EquipmentResource(Resource):
 
     def get(self):
         try:
-            equipment = EquipmentService.fetch_all_equipment(db.session)
+            equipment = EquipmentService.fetch_all(db.session, self.model)
             self.schema.dump(equipment, many=True)
             return_value = render_html(
                 self.TEMPLATE, menu=menu,
@@ -89,7 +89,7 @@ class EquipmentResource(Resource):
     def patch(self):
         try:
             ob = EquipmentService.fetch_equipment_by_otdel_and_rabmesto(
-                db.session,
+                db.session, self.model,
                 request.json["Otdel"],
                 request.json['RabocheeMesto'])
             db.session.add(self.schema.load(request.json,
@@ -107,7 +107,7 @@ class EquipmentResource(Resource):
                         "msg": "Удаление не совершено!"}, 404
         try:
             ob = EquipmentService.fetch_equipment_by_otdel_and_rabmesto(
-                db.session,
+                db.session, self.model,
                 request.json["Otdel"],
                 request.json['RabocheeMesto'])
 
