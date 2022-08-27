@@ -1,0 +1,196 @@
+{%extends "anytable.html" %}
+
+{% block find %}
+
+{#<form action="{{ uri }}" method="post" class="search_form">#}
+{#    <label>#}
+{#        <input name="search_info" type="text" class="field" placeholder="Введите данные для поиска">#}
+{#    </label>#}
+{#    <label>#}
+{#        <input name="date_search" style="display: none;">#}
+{#    </label>#}
+{#    <input id="search_btn" type="submit" class="ok_btn" value="➡️">#}
+{#</form>#}
+
+{% endblock %}
+
+
+{% block content %}
+    {% if numbers %}
+{% for item in numbers%}
+<tr>
+    <td>{{item.Name}}</td>
+    <td>{{item.Number}}</td>
+</tr>
+{%endfor%}
+    {% else %}
+        <tr><td></td></tr>
+    {% endif %}
+{% endblock %}
+
+{% block add_form %}
+<a id="add_close" href="" class="popup__close">X</a>
+<div class="popup__title">Добавление номера</div>
+    <input id="addName"  type="text" placeholder="Введите имя " /><br>
+    <input id="addNumber"  type="text" placeholder="Введите номер " /><br>
+<input id="add_sub_btn" type="button" value="Ok" />
+
+{% endblock %}
+
+{% block delete_form %}
+<a id="del_close" href="" class="popup__close">X</a>
+<div name="del_title" class="popup__title">Удаление записи </div>
+<div class="popup__text">Вы уверены что хотите удалить ?</div>
+<input id="del_btn" type="button" class="ok_btn" value="Ok">
+{% endblock %}
+
+{% block update_form %}
+<a id="up_close" href="" class="popup__close">X</a>
+<div name="up_title" class="popup__title">Обновление записи </div>
+
+    <label for="upName"></label><input id="upName"  type="text" placeholder="Введите имя " /><br>
+    <label for="upNumber"></label><input id="upNumber"  type="text" placeholder="Введите номер " /><br>
+    <input id="up_btn" type="button" value="Ok" />
+
+{% endblock %}
+
+
+{% block user_script%}
+
+<script>
+    let idleTime = 0;
+    document.addEventListener('DOMContentLoaded', () => {
+
+        setInterval(timerIncrement, 1000); // 1 sec
+
+        //Zero the idle timer on mouse movement.
+        document.addEventListener('mousemove', function() {
+            idleTime = 0;
+        });
+        document.addEventListener("keypress", function() {
+            idleTime = 0;
+        });
+    });
+
+    function timerIncrement() {
+        idleTime = idleTime + 1;
+
+        if (idleTime > 60) { // 60 sec
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "{{ uri }}");
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+
+            xhr.send(JSON.stringify({
+                "disable_server": true,
+            }));
+
+            xhr.onload = function() {
+
+                window.location.reload();
+            }
+
+            idleTime = 0;
+        }
+    }
+
+    let Name;
+    let Number;
+
+    {% if add_option %}
+    document.querySelector("#add_sub_btn").onclick = function() {
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', "{{ uri }}");
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify({
+            "Name": addName.value,
+            "Number": addNumber.value,
+        }));
+
+        xhr.onload = function() {
+            let jsonResponse = JSON.parse(xhr.responseText);
+            up_close.href = "#msgpopup";
+            up_close.click();
+            msgtext.innerHTML = jsonResponse["msg"];
+            msgtitle.innerHTML = jsonResponse["msg_title"];
+            up_close.href = "";
+        }
+
+    };
+
+    {% endif %}
+
+    {% if up_option %}
+    document.querySelector("#up_btn").onclick = function() {
+        let xhr = new XMLHttpRequest();
+        xhr.open('PATCH', "{{ uri }}?oldNumber="+Number);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify({
+            "Name": upName.value,
+            "Number": upNumber.value,
+        }));
+
+        xhr.onload = function() {
+            let jsonResponse = JSON.parse(xhr.responseText);
+            up_close.href = "#msgpopup";
+            up_close.click();
+            msgtext.innerHTML = jsonResponse["msg"];
+            msgtitle.innerHTML = jsonResponse["msg_title"];
+            up_close.href = "";
+        }
+
+    };
+
+    document.querySelector("#l1").addEventListener("click", () => {
+        if (window.tr) {
+
+            Name = window.tr.getElementsByTagName("td")[0].innerHTML;
+            Number = window.tr.getElementsByTagName("td")[1].innerHTML;
+        }
+        let title = document.getElementsByName("del_title")[0];
+        title.innerHTML += " " + Name;
+        upName.value = Name;
+        upNumber.value = Number;
+    }, false);
+
+    {% endif %}
+
+    {% if del_option %}
+    document.querySelector("#del_btn").onclick = function() {
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('DELETE', "{{ uri }}");
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+
+        xhr.send(JSON.stringify({
+            "Number": Number,
+        }));
+
+        xhr.onload = function() {
+
+            let jsonResponse = JSON.parse(xhr.responseText);
+            del_close.href = "#msgpopup";
+            del_close.click();
+            msgtext.innerHTML = jsonResponse["msg"];
+            msgtitle.innerHTML = jsonResponse["msg_title"];
+            del_close.href = "";
+        }
+
+
+    };
+
+
+    document.querySelector("#l2").addEventListener("click", () => {
+        if (window.tr) {
+            Name = window.tr.getElementsByTagName("td")[0].innerHTML;
+            Number = window.tr.getElementsByTagName("td")[1].innerHTML;
+        }
+        let title = document.getElementsByName("del_title")[0];
+        title.innerHTML += " " + Name;
+    }, false);
+
+    {% endif %}
+
+</script>
+{% endblock %}

@@ -173,7 +173,7 @@
     {% if up_option %}
     document.querySelector("#up_btn").onclick = function() {
         let xhr = new XMLHttpRequest();
-        xhr.open('PATCH', "{{ uri }}");
+        xhr.open('PATCH', "{{ uri }}?Otdel="+Otdel+"&RabocheeMesto="+RabocheeMesto);
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhr.send(JSON.stringify({
             "Otdel": upOtdel.value,

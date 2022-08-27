@@ -1,6 +1,6 @@
 from src import db
 
-MODELS = ['UchetCompOborud']
+MODELS = ['UchetCompOborud', "EternalNumbers"]
 
 
 class UchetCompOborud(db.Model):
@@ -33,21 +33,45 @@ class UchetCompOborud(db.Model):
     def __repr__(self):
         return f'Oborud: id = {self.ID} otdel={self.Otdel}'
 
+    @staticmethod
+    def search_uchet(session, search_info: str):
+        ls = [
+            session.query(UchetCompOborud).filter(UchetCompOborud.Otdel.like(f"%{search_info}%")),
+            session.query(UchetCompOborud).filter(UchetCompOborud.RabocheeMesto.like(f"%{search_info}%")),
+            session.query(UchetCompOborud).filter(UchetCompOborud.SistemnijBlok.like(f"%{search_info}%")),
+            session.query(UchetCompOborud).filter(UchetCompOborud.Monitor.like(f"%{search_info}%")),
+            session.query(UchetCompOborud).filter(UchetCompOborud.Processor.like(f"%{search_info}%")),
+            session.query(UchetCompOborud).filter(UchetCompOborud.OperPamyat.like(f"%{search_info}%")),
+            session.query(UchetCompOborud).filter(UchetCompOborud.PostPamyat.like(f"%{search_info}%")),
+            session.query(UchetCompOborud).filter(UchetCompOborud.GPU.like(f"%{search_info}%")),
+            session.query(UchetCompOborud).filter(UchetCompOborud.Printer.like(f"%{search_info}%")),
+            session.query(UchetCompOborud).filter(UchetCompOborud.MatPlata.like(f"%{search_info}%")),
+            session.query(UchetCompOborud).filter(UchetCompOborud.BlokPitaniya.like(f"%{search_info}%")),
+            session.query(UchetCompOborud).filter(UchetCompOborud.UPS.like(f"%{search_info}%")),
+        ]
 
-def search_uchet(search_info: str, date_search: str):
-    ls = [
-        db.session.query(UchetCompOborud).filter(UchetCompOborud.Otdel.like(f"%{search_info}%")),
-        db.session.query(UchetCompOborud).filter(UchetCompOborud.RabocheeMesto.like(f"%{search_info}%")),
-        db.session.query(UchetCompOborud).filter(UchetCompOborud.SistemnijBlok.like(f"%{search_info}%")),
-        db.session.query(UchetCompOborud).filter(UchetCompOborud.Monitor.like(f"%{search_info}%")),
-        db.session.query(UchetCompOborud).filter(UchetCompOborud.Processor.like(f"%{search_info}%")),
-        db.session.query(UchetCompOborud).filter(UchetCompOborud.OperPamyat.like(f"%{search_info}%")),
-        db.session.query(UchetCompOborud).filter(UchetCompOborud.PostPamyat.like(f"%{search_info}%")),
-        db.session.query(UchetCompOborud).filter(UchetCompOborud.GPU.like(f"%{search_info}%")),
-        db.session.query(UchetCompOborud).filter(UchetCompOborud.Printer.like(f"%{search_info}%")),
-        db.session.query(UchetCompOborud).filter(UchetCompOborud.MatPlata.like(f"%{search_info}%")),
-        db.session.query(UchetCompOborud).filter(UchetCompOborud.BlokPitaniya.like(f"%{search_info}%")),
-        db.session.query(UchetCompOborud).filter(UchetCompOborud.UPS.like(f"%{search_info}%")),
-    ]
+        return {item for query in ls for item in query}
 
-    return {item for query in ls for item in query}
+
+class EternalNumbers(db.Model):
+    __tablename__ = 'EternalNumbers'
+
+    ID = db.Column(db.Integer, primary_key=True, nullable=False, server_default=db.FetchedValue())
+    Number = db.Column(db.String(150, 'Cyrillic_General_CI_AS'), nullable=False)
+    Name = db.Column(db.String(150, 'Cyrillic_General_CI_AS'))
+
+    def __init__(self, Number, Name):
+        self.Number, self.Name = Number, Name
+
+    def __repr__(self):
+        return f'EternalNumber: {self.Number} Name={self.Name}'
+
+    @staticmethod
+    def search_uchet(session, search_info: str):
+        ls = [
+            session.query(EternalNumbers).filter(EternalNumbers.Name.like(f"%{search_info}%")),
+            session.query(EternalNumbers).filter(EternalNumbers.Number.like(f"%{search_info}%")),
+
+        ]
+
+        return {item for query in ls for item in query}
