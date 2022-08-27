@@ -1,6 +1,5 @@
 from src import api
-from src.authentification import Intro
-from src.resources import OborudListApi
+from src.resources import AuthenticationResource, EquipmentResource
 
-api.add_resource(Intro, "/")
-api.add_resource(OborudListApi, "/oborud")
+api.add_resource(AuthenticationResource, AuthenticationResource.URI, "/")
+api.add_resource(EquipmentResource, EquipmentResource.URI)

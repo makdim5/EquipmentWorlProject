@@ -1,18 +1,10 @@
-import time
-from threading import Thread
-from time import sleep
-
-from flask import url_for, request
-from flask_restful import Resource
 import pyodbc
-from werkzeug.utils import redirect
 
 from src import app
 from src.models import MODELS
-from src.utils import to_html_resource
 
 
-class Intro(Resource):
+class DBManager:
     SERVER = r"MSIPYMAK\SQLEXPRESS"
     DB_NAME = "factory_info"
     DATABASES_NAMES = [
@@ -24,33 +16,6 @@ class Intro(Resource):
     SQLALCHEMY_DATABASE_URI = ""
 
     RULES = dict()
-
-    def get(self):
-        self.reset_db_uri()
-        return to_html_resource("authentication.html")
-
-    def post(self):
-        user_json = request.form.to_dict()
-
-        if user_json["login"] and user_json["password"]:
-            rules = self.define_db_rules(user_json["login"], user_json["password"])
-            if rules:
-                self.set_db_uri(user_json["login"], user_json["password"])
-
-                if rules['UchetCompOborud']["SELECT"]:
-                    value = redirect(url_for("oborudlistapi"))
-
-
-
-                else:
-                    value = to_html_resource("error.html", er_msg="Нет доступа к ресурсу!")
-
-
-            else:
-                value = to_html_resource("error.html", er_msg="Нет доступа к ресурсу!")
-        else:
-            value = to_html_resource("error.html", er_msg="Введены пустые данные!")
-        return value
 
     @classmethod
     def define_db_rules(cls, user, password,
@@ -86,9 +51,10 @@ class Intro(Resource):
     def reset_db_uri(cls):
         app.config["SQLALCHEMY_DATABASE_URI"] = ""
 
-    def set_db_uri(self, login, password):
+    @classmethod
+    def set_db_uri(cls, login, password):
         if login and password:
             app.config["SQLALCHEMY_DATABASE_URI"] = \
-                f"{self.DATABASE_TYPE}://{login}:{password}@" \
-                f"{self.DATABASES_NAMES[1]}" \
+                f"{cls.DATABASE_TYPE}://{login}:{password}@" \
+                f"{cls.DATABASES_NAMES[1]}" \
                 f"?driver=SQL Server Native Client 11.0"

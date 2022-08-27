@@ -2,19 +2,23 @@
 
 {% block find %}
 
-<form action="\oborud" method="post" class="search_form">
-    <input name="search_info" type="text" class="field" placeholder="Введите данные для поиска">
-    <input name="date_search" style="display: none;">
-    <input id="search_btn" type="submit" class="ok_btn" value="➡️">
-</form>
+{#<form action="{{ uri }}" method="post" class="search_form">#}
+{#    <label>#}
+{#        <input name="search_info" type="text" class="field" placeholder="Введите данные для поиска">#}
+{#    </label>#}
+{#    <label>#}
+{#        <input name="date_search" style="display: none;">#}
+{#    </label>#}
+{#    <input id="search_btn" type="submit" class="ok_btn" value="➡️">#}
+{#</form>#}
 
 {% endblock %}
 
 
 {% block content %}
+    {% if oborud %}
 {% for item in oborud%}
 <tr>
-
     <td>{{item.ID}}</td>
     <td>{{item.Otdel}}</td>
     <td>{{item.RabocheeMesto}}</td>
@@ -28,35 +32,30 @@
     <td>{{item.MatPlata}}</td>
     <td>{{item.BlokPitaniya}}</td>
     <td>{{item.UPS}}</td>
-    <td>{{item.Date_zap}}</td>
-    <td>{{item.Prim}}</td>
-
-
 </tr>
 {%endfor%}
+    {% else %}
+        <tr><td></td></tr>
+    {% endif %}
 {% endblock %}
 
 {% block add_form %}
 <a id="add_close" href="" class="popup__close">X</a>
 <div class="popup__title">Добавление оборудования</div>
+    <input id="addOtdel" name="Otdel" type="text" placeholder="Введите отдел " /><br>
+    <input id="addRabocheeMesto" name="RabocheeMesto" type="text" placeholder="Введите рабочее место " /><br>
+    <input id="addSistemnijBlok" name="SistemnijBlok" type="text" placeholder="Введите системный блок " /><br>
+    <input id="addMonitor" name="Monitor" type="text" placeholder="Введите монитор " /><br>
+    <input id="addProcessor" name="Processor" type="text" placeholder="Введите процессор " /><br>
+    <input id="addOperPamyat" name="OperPamyat" type="text" placeholder="Введите ОЗУ " /><br>
+    <input id="addPostPamyat" name="PostPamyat" type="text" placeholder="Введите ПЗУ " /><br>
+    <input id="addGPU" name="GPU" type="text" placeholder="Введите GPU " /><br>
+    <input id="addPrinter" name="Printer" type="text" placeholder="Введите принтер " /><br>
+    <input id="addMatPlata" name="MatPlata" type="text" placeholder="Введите материнскую плату " /><br>
+    <input id="addBlokPitaniya" name="BlokPitaniya" type="text" placeholder="Введите блок питания " /><br>
+    <input id="addUPS" name="UPS" type="text" placeholder="Введите UPS " /><br>
+<input id="add_sub_btn" type="button" value="Ok" />
 
-<form action="\oborud#msgpopup" method="post">
-    <input name="Otdel" type="text" placeholder="Введите отдел " /><br>
-    <input name="RabocheeMesto" type="text" placeholder="Введите рабочее место " /><br>
-    <input name="SistemnijBlok" type="text" placeholder="Введите системный блок " /><br>
-    <input name="Monitor" type="text" placeholder="Введите монитор " /><br>
-    <input name="Processor" type="text" placeholder="Введите процессор " /><br>
-    <input name="OperPamyat" type="text" placeholder="Введите ОЗУ " /><br>
-    <input name="PostPamyat" type="text" placeholder="Введите ПЗУ " /><br>
-    <input name="GPU" type="text" placeholder="Введите GPU " /><br>
-    <input name="Printer" type="text" placeholder="Введите принтер " /><br>
-    <input name="MatPlata" type="text" placeholder="Введите материнскую плату " /><br>
-    <input name="BlokPitaniya" type="text" placeholder="Введите блок питания " /><br>
-    <input name="UPS" type="text" placeholder="Введите UPS " /><br>
-    <input name="Date_zap" type="date" /><br>
-    <input name="Prim" type="text" placeholder="Введите Prim " /><br>
-    <input type="submit" value="Ok" />
-</form>
 {% endblock %}
 
 {% block delete_form %}
@@ -64,28 +63,24 @@
 <div name="del_title" class="popup__title">Удаление записи оборудования </div>
 <div class="popup__text">Вы уверены что хотите удалить ?</div>
 <input id="del_btn" type="button" class="ok_btn" value="Ok">
-
-
 {% endblock %}
 
 {% block update_form %}
 <a id="up_close" href="" class="popup__close">X</a>
 <div name="up_title" class="popup__title">Обновление записи оборудования</div>
 
-<input id="upOtdel" name="Otdel" type="text" placeholder="Введите отдел " /><br>
-<input id="upRabocheeMesto" name="RabocheeMesto" type="text" placeholder="Введите рабочее место " /><br>
-<input id="upSistemnijBlok" name="SistemnijBlok" type="text" placeholder="Введите системный блок " /><br>
-<input id="upMonitor" name="Monitor" type="text" placeholder="Введите монитор " /><br>
-<input id="upProcessor" name="Processor" type="text" placeholder="Введите процессор " /><br>
-<input id="upOperPamyat" name="OperPamyat" type="text" placeholder="Введите ОЗУ " /><br>
-<input id="upPostPamyat" name="PostPamyat" type="text" placeholder="Введите ПЗУ " /><br>
-<input id="upGPU" name="GPU" type="text" placeholder="Введите GPU " /><br>
-<input id="upPrinter" name="Printer" type="text" placeholder="Введите принтер " /><br>
-<input id="upMatPlata" name="MatPlata" type="text" placeholder="Введите материнскую плату " /><br>
-<input id="upBlokPitaniya" name="BlokPitaniya" type="text" placeholder="Введите блок питания " /><br>
-<input id="upUPS" name="UPS" type="text" placeholder="Введите UPS " /><br>
-<input id="upDate_zap" name="Date_zap" type="date" /><br>
-<input id="upPrim" name="Prim" type="text" placeholder="Введите Prim " /><br>
+    <label for="upOtdel"></label><input id="upOtdel" name="Otdel" type="text" placeholder="Введите отдел " /><br>
+    <label for="upRabocheeMesto"></label><input id="upRabocheeMesto" name="RabocheeMesto" type="text" placeholder="Введите рабочее место " /><br>
+    <label for="upSistemnijBlok"></label><input id="upSistemnijBlok" name="SistemnijBlok" type="text" placeholder="Введите системный блок " /><br>
+    <label for="upMonitor"></label><input id="upMonitor" name="Monitor" type="text" placeholder="Введите монитор " /><br>
+    <label for="upProcessor"></label><input id="upProcessor" name="Processor" type="text" placeholder="Введите процессор " /><br>
+    <label for="upOperPamyat"></label><input id="upOperPamyat" name="OperPamyat" type="text" placeholder="Введите ОЗУ " /><br>
+    <label for="upPostPamyat"></label><input id="upPostPamyat" name="PostPamyat" type="text" placeholder="Введите ПЗУ " /><br>
+    <label for="upGPU"></label><input id="upGPU" name="GPU" type="text" placeholder="Введите GPU " /><br>
+    <label for="upPrinter"></label><input id="upPrinter" name="Printer" type="text" placeholder="Введите принтер " /><br>
+    <label for="upMatPlata"></label><input id="upMatPlata" name="MatPlata" type="text" placeholder="Введите материнскую плату " /><br>
+    <label for="upBlokPitaniya"></label><input id="upBlokPitaniya" name="BlokPitaniya" type="text" placeholder="Введите блок питания " /><br>
+    <label for="upUPS"></label><input id="upUPS" name="UPS" type="text" placeholder="Введите UPS " /><br>
 <input id="up_btn" type="button" value="Ok" />
 
 {% endblock %}
@@ -94,17 +89,16 @@
 {% block user_script%}
 
 <script>
-    idleTime = 0;
+    let idleTime = 0;
     document.addEventListener('DOMContentLoaded', () => {
 
-        //Increment the idle time counter every minute.
-        var idleInterval = setInterval(timerIncrement, 1000); // 1 sec
+        setInterval(timerIncrement, 1000); // 1 sec
 
         //Zero the idle timer on mouse movement.
-        document.addEventListener('mousemove', function(e) {
+        document.addEventListener('mousemove', function() {
             idleTime = 0;
         });
-        document.addEventListener("keypress", function(e) {
+        document.addEventListener("keypress", function() {
             idleTime = 0;
         });
     });
@@ -113,8 +107,8 @@
         idleTime = idleTime + 1;
 
         if (idleTime > 60) { // 60 sec
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', "\oborud");
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "{{ uri }}");
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
 
@@ -124,81 +118,81 @@
 
             xhr.onload = function() {
 
-                window.location.reload("/");
+                window.location.reload();
             }
 
             idleTime = 0;
         }
     }
 
+    let Otdel;
+    let RabocheeMesto;
+    let SistemnijBlok;
+    let Monitor;
+    let Processor;
+    let OperPamyat;
+    let PostPamyat;
+    let GPU;
+    let Printer;
+    let MatPlata;
+    let BlokPitaniya;
+    let UPS;
 
-
-    var Otdel;
-    var RabocheeMesto;
-    var SistemnijBlok;
-    var Monitor;
-    var Processor;
-    var OperPamyat;
-    var PostPamyat;
-    var GPU;
-    var Printer;
-    var MatPlata;
-    var BlokPitaniya;
-    var UPS;
-    var Date_zap;
-    var Prim;
-
-    //     setTimeout(function() {
-    //                location.reload();
-    //            }, 60000);
-
-    {% if up_option %}
-    document.querySelector("#up_btn").onclick = function() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('PATCH', "\oborud");
+    {% if add_option %}
+    document.querySelector("#add_sub_btn").onclick = function() {
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', "{{ uri }}");
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-
-
         xhr.send(JSON.stringify({
-            //            "newlogin": uplogin.value,
-            //
-            //            "login": user_login,
-
-            "Otdel": Otdel,
-            "RabocheeMesto": RabocheeMesto,
-            "SistemnijBlok": SistemnijBlok,
-            "Monitor": Monitor,
-            "Processor": Processor,
-            "OperPamyat": OperPamyat,
-            "PostPamyat": PostPamyat,
-            "GPU": GPU,
-            "Printer": Printer,
-            "MatPlata": MatPlata,
-            "BlokPitaniya": BlokPitaniya,
-            "UPS": UPS,
-            "Date_zap": Date_zap,
-            "Prim": Prim,
-
-            "newOtdel": upOtdel.value,
-            "newRabocheeMesto": upRabocheeMesto.value,
-            "newSistemnijBlok": upSistemnijBlok.value,
-            "newMonitor": upMonitor.value,
-            "newProcessor": upProcessor.value,
-            "newOperPamyat": upOperPamyat.value,
-            "newPostPamyat": upPostPamyat.value,
-            "newGPU": upGPU.value,
-            "newPrinter": upPrinter.value,
-            "newMatPlata": upMatPlata.value,
-            "newBlokPitaniya": upBlokPitaniya.value,
-            "newUPS": upUPS.value,
-            "newDate_zap": upDate_zap.value,
-            "newPrim": upPrim.value
+            "Otdel": addOtdel.value,
+            "RabocheeMesto": addRabocheeMesto.value,
+            "SistemnijBlok": addSistemnijBlok.value,
+            "Monitor": addMonitor.value,
+            "Processor": addProcessor.value,
+            "OperPamyat": addOperPamyat.value + "",
+            "PostPamyat": addPostPamyat.value + "",
+            "GPU": addGPU.value + "",
+            "Printer": addPrinter.value + "",
+            "MatPlata": addMatPlata.value + "",
+            "BlokPitaniya": addBlokPitaniya.value + "",
+            "UPS": addUPS.value + "",
         }));
 
         xhr.onload = function() {
+            let jsonResponse = JSON.parse(xhr.responseText);
+            up_close.href = "#msgpopup";
+            up_close.click();
+            msgtext.innerHTML = jsonResponse["msg"];
+            msgtitle.innerHTML = jsonResponse["msg_title"];
+            up_close.href = "";
+        }
 
-            var jsonResponse = JSON.parse(xhr.responseText);
+    };
+
+    {% endif %}
+
+    {% if up_option %}
+    document.querySelector("#up_btn").onclick = function() {
+        let xhr = new XMLHttpRequest();
+        xhr.open('PATCH', "{{ uri }}");
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify({
+            "Otdel": upOtdel.value,
+            "RabocheeMesto": upRabocheeMesto.value + "",
+            "SistemnijBlok": upSistemnijBlok.value + "",
+            "Monitor": upMonitor.value + "",
+            "Processor": upProcessor.value + "",
+            "OperPamyat": upOperPamyat.value + "",
+            "PostPamyat": upPostPamyat.value + "",
+            "GPU": upGPU.value + "",
+            "Printer": upPrinter.value + "",
+            "MatPlata": upMatPlata.value + "",
+            "BlokPitaniya": upBlokPitaniya.value + "",
+            "UPS": upUPS.value + "",
+        }));
+
+        xhr.onload = function() {
+            let jsonResponse = JSON.parse(xhr.responseText);
             up_close.href = "#msgpopup";
             up_close.click();
             msgtext.innerHTML = jsonResponse["msg"];
@@ -223,10 +217,8 @@
             MatPlata = window.tr.getElementsByTagName("td")[10].innerHTML;
             BlokPitaniya = window.tr.getElementsByTagName("td")[11].innerHTML;
             UPS = window.tr.getElementsByTagName("td")[12].innerHTML;
-            Date_zap = window.tr.getElementsByTagName("td")[13].innerHTML;
-            Prim = window.tr.getElementsByTagName("td")[14].innerHTML;
         }
-        title = document.getElementsByName("del_title")[0];
+        let title = document.getElementsByName("del_title")[0];
         title.innerHTML += " " + Otdel;
         //        uplogin.value = user_login;
         upOtdel.value = Otdel;
@@ -241,9 +233,6 @@
         upMatPlata.value = MatPlata;
         upBlokPitaniya.value = BlokPitaniya;
         upUPS.value = UPS;
-        upDate_zap.value = Date_zap;
-        upPrim.value = Prim;
-
 
     }, false);
 
@@ -252,8 +241,8 @@
     {% if del_option %}
     document.querySelector("#del_btn").onclick = function() {
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('DELETE', "\oborud");
+        let xhr = new XMLHttpRequest();
+        xhr.open('DELETE', "{{ uri }}");
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
 
@@ -264,7 +253,7 @@
 
         xhr.onload = function() {
 
-            var jsonResponse = JSON.parse(xhr.responseText);
+            let jsonResponse = JSON.parse(xhr.responseText);
             del_close.href = "#msgpopup";
             del_close.click();
             msgtext.innerHTML = jsonResponse["msg"];
@@ -290,10 +279,8 @@
             MatPlata = window.tr.getElementsByTagName("td")[10].innerHTML;
             BlokPitaniya = window.tr.getElementsByTagName("td")[11].innerHTML;
             UPS = window.tr.getElementsByTagName("td")[12].innerHTML;
-            Date_zap = window.tr.getElementsByTagName("td")[13].innerHTML;
-            Prim = window.tr.getElementsByTagName("td")[14].innerHTML;
         }
-        title = document.getElementsByName("del_title")[0];
+        let title = document.getElementsByName("del_title")[0];
         title.innerHTML += " " + Otdel;
     }, false);
 
