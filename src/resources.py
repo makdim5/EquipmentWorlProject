@@ -8,6 +8,7 @@ from werkzeug.utils import redirect
 
 from src.schemas import EquipmentSchema
 from src.services.db_manager import DBManager
+from src.services.oborud_service import EquipmentService
 from src.services.render_utils import render_html
 
 
@@ -38,10 +39,11 @@ menu = [
 
 class EquipmentResource(Resource):
     URI = "/equipment"
+    TEMPLATE = "oborud.html"
+    model = UchetCompOborud
     schema = EquipmentSchema()
     title = "Учёт оборудования"
     table_titles = [
-        "ID",
         "Отдел",
         "Рабочее место",
         "Системный блок",
@@ -58,16 +60,17 @@ class EquipmentResource(Resource):
 
     def get(self):
         try:
-            equipment = db.session.query(UchetCompOborud).all()
+            equipment = EquipmentService.fetch_all_equipment(db.session)
             self.schema.dump(equipment, many=True)
-            return_value = render_html("oborud.html", menu=menu,
-                                       oborud=equipment,
-                                       uri=EquipmentResource.URI,
-                                       title=self.title,
-                                       table_titles=self.table_titles,
-                                       add_option=DBManager.RULES["UchetCompOborud"]["INSERT"],
-                                       up_option=DBManager.RULES["UchetCompOborud"]["UPDATE"],
-                                       del_option=DBManager.RULES["UchetCompOborud"]["DELETE"])
+            return_value = render_html(
+                self.TEMPLATE, menu=menu,
+                oborud=equipment,
+                uri=EquipmentResource.URI,
+                title=self.title,
+                table_titles=self.table_titles,
+                add_option=DBManager.RULES[self.model.__name__]["INSERT"],
+                up_option=DBManager.RULES[self.model.__name__]["UPDATE"],
+                del_option=DBManager.RULES[self.model.__name__]["DELETE"])
         except (ArgumentError, OperationalError, ProgrammingError):
             return_value = redirect(url_for("authenticationresource"))
         return return_value
@@ -85,11 +88,12 @@ class EquipmentResource(Resource):
 
     def patch(self):
         try:
-            ob = db.session.query(UchetCompOborud). \
-                filter_by(Otdel=request.json["Otdel"]). \
-                filter_by(RabocheeMesto=request.json['RabocheeMesto']).first()
+            ob = EquipmentService.fetch_equipment_by_otdel_and_rabmesto(
+                db.session,
+                request.json["Otdel"],
+                request.json['RabocheeMesto'])
             db.session.add(self.schema.load(request.json,
-                                   instance=ob, session=db.session))
+                                            instance=ob, session=db.session))
             db.session.commit()
             return_value = {"msg_title": "Сообщение",
                             "msg": "Обновление совершено!"}, 200
@@ -102,9 +106,10 @@ class EquipmentResource(Resource):
         return_value = {"msg_title": "Ошибка",
                         "msg": "Удаление не совершено!"}, 404
         try:
-            ob = db.session.query(UchetCompOborud). \
-                filter_by(Otdel=request.json["Otdel"]). \
-                filter_by(RabocheeMesto=request.json['RabocheeMesto']).first()
+            ob = EquipmentService.fetch_equipment_by_otdel_and_rabmesto(
+                db.session,
+                request.json["Otdel"],
+                request.json['RabocheeMesto'])
 
             if ob:
                 db.session.delete(ob)
