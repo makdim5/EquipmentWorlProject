@@ -19,7 +19,6 @@
     {% if oborud %}
 {% for item in oborud%}
 <tr>
-    <td>{{item.ID}}</td>
     <td>{{item.Otdel}}</td>
     <td>{{item.RabocheeMesto}}</td>
     <td>{{item.SistemnijBlok}}</td>
@@ -205,22 +204,21 @@
     document.querySelector("#l1").addEventListener("click", () => {
         if (window.tr) {
 
-            Otdel = window.tr.getElementsByTagName("td")[1].innerHTML;
-            RabocheeMesto = window.tr.getElementsByTagName("td")[2].innerHTML;
-            SistemnijBlok = window.tr.getElementsByTagName("td")[3].innerHTML;
-            Monitor = window.tr.getElementsByTagName("td")[4].innerHTML;
-            Processor = window.tr.getElementsByTagName("td")[5].innerHTML;
-            OperPamyat = window.tr.getElementsByTagName("td")[6].innerHTML;
-            PostPamyat = window.tr.getElementsByTagName("td")[7].innerHTML;
-            GPU = window.tr.getElementsByTagName("td")[8].innerHTML;
-            Printer = window.tr.getElementsByTagName("td")[9].innerHTML;
-            MatPlata = window.tr.getElementsByTagName("td")[10].innerHTML;
-            BlokPitaniya = window.tr.getElementsByTagName("td")[11].innerHTML;
-            UPS = window.tr.getElementsByTagName("td")[12].innerHTML;
+            Otdel = window.tr.getElementsByTagName("td")[0].innerHTML;
+            RabocheeMesto = window.tr.getElementsByTagName("td")[1].innerHTML;
+            SistemnijBlok = window.tr.getElementsByTagName("td")[2].innerHTML;
+            Monitor = window.tr.getElementsByTagName("td")[3].innerHTML;
+            Processor = window.tr.getElementsByTagName("td")[4].innerHTML;
+            OperPamyat = window.tr.getElementsByTagName("td")[5].innerHTML;
+            PostPamyat = window.tr.getElementsByTagName("td")[6].innerHTML;
+            GPU = window.tr.getElementsByTagName("td")[7].innerHTML;
+            Printer = window.tr.getElementsByTagName("td")[8].innerHTML;
+            MatPlata = window.tr.getElementsByTagName("td")[9].innerHTML;
+            BlokPitaniya = window.tr.getElementsByTagName("td")[10].innerHTML;
+            UPS = window.tr.getElementsByTagName("td")[11].innerHTML;
         }
         let title = document.getElementsByName("del_title")[0];
         title.innerHTML += " " + Otdel;
-        //        uplogin.value = user_login;
         upOtdel.value = Otdel;
         upRabocheeMesto.value = RabocheeMesto;
         upSistemnijBlok.value = SistemnijBlok;
@@ -267,18 +265,18 @@
 
     document.querySelector("#l2").addEventListener("click", () => {
         if (window.tr) {
-            Otdel = window.tr.getElementsByTagName("td")[1].innerHTML;
-            RabocheeMesto = window.tr.getElementsByTagName("td")[2].innerHTML;
-            SistemnijBlok = window.tr.getElementsByTagName("td")[3].innerHTML;
-            Monitor = window.tr.getElementsByTagName("td")[4].innerHTML;
-            Processor = window.tr.getElementsByTagName("td")[5].innerHTML;
-            OperPamyat = window.tr.getElementsByTagName("td")[6].innerHTML;
-            PostPamyat = window.tr.getElementsByTagName("td")[7].innerHTML;
-            GPU = window.tr.getElementsByTagName("td")[8].innerHTML;
-            Printer = window.tr.getElementsByTagName("td")[9].innerHTML;
-            MatPlata = window.tr.getElementsByTagName("td")[10].innerHTML;
-            BlokPitaniya = window.tr.getElementsByTagName("td")[11].innerHTML;
-            UPS = window.tr.getElementsByTagName("td")[12].innerHTML;
+            Otdel = window.tr.getElementsByTagName("td")[0].innerHTML;
+            RabocheeMesto = window.tr.getElementsByTagName("td")[1].innerHTML;
+            SistemnijBlok = window.tr.getElementsByTagName("td")[2].innerHTML;
+            Monitor = window.tr.getElementsByTagName("td")[3].innerHTML;
+            Processor = window.tr.getElementsByTagName("td")[4].innerHTML;
+            OperPamyat = window.tr.getElementsByTagName("td")[5].innerHTML;
+            PostPamyat = window.tr.getElementsByTagName("td")[6].innerHTML;
+            GPU = window.tr.getElementsByTagName("td")[7].innerHTML;
+            Printer = window.tr.getElementsByTagName("td")[8].innerHTML;
+            MatPlata = window.tr.getElementsByTagName("td")[9].innerHTML;
+            BlokPitaniya = window.tr.getElementsByTagName("td")[10].innerHTML;
+            UPS = window.tr.getElementsByTagName("td")[11].innerHTML;
         }
         let title = document.getElementsByName("del_title")[0];
         title.innerHTML += " " + Otdel;
