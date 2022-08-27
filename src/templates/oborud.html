@@ -2,15 +2,12 @@
 
 {% block find %}
 
-{#<form action="{{ uri }}" method="post" class="search_form">#}
-{#    <label>#}
-{#        <input name="search_info" type="text" class="field" placeholder="Введите данные для поиска">#}
-{#    </label>#}
-{#    <label>#}
-{#        <input name="date_search" style="display: none;">#}
-{#    </label>#}
-{#    <input id="search_btn" type="submit" class="ok_btn" value="➡️">#}
-{#</form>#}
+<form action="{{ uri }}" method="post" class="search_form">
+    <label>
+        <input name="search_info" type="text" class="field" placeholder="Введите данные для поиска">
+    </label>
+    <input id="search_btn" type="submit" class="ok_btn" value="➡️">
+</form>
 
 {% endblock %}
 

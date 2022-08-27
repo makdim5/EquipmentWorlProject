@@ -34,7 +34,7 @@ class UchetCompOborud(db.Model):
         return f'Oborud: id = {self.ID} otdel={self.Otdel}'
 
     @staticmethod
-    def search_uchet(session, search_info: str):
+    def search(session, search_info: str):
         ls = [
             session.query(UchetCompOborud).filter(UchetCompOborud.Otdel.like(f"%{search_info}%")),
             session.query(UchetCompOborud).filter(UchetCompOborud.RabocheeMesto.like(f"%{search_info}%")),
@@ -67,7 +67,7 @@ class EternalNumbers(db.Model):
         return f'EternalNumber: {self.Number} Name={self.Name}'
 
     @staticmethod
-    def search_uchet(session, search_info: str):
+    def search(session, search_info: str):
         ls = [
             session.query(EternalNumbers).filter(EternalNumbers.Name.like(f"%{search_info}%")),
             session.query(EternalNumbers).filter(EternalNumbers.Number.like(f"%{search_info}%")),

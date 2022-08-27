@@ -55,6 +55,7 @@ class EquipmentResource(Resource):
 
     def get(self):
         try:
+
             equipment = EquipmentService.fetch_all(db.session, self.model)
             self.schema.dump(equipment, many=True)
             return_value = render_html(
@@ -72,10 +73,24 @@ class EquipmentResource(Resource):
 
     def post(self):
         try:
-            db.session.add(self.schema.load(request.json, session=db.session))
-            db.session.commit()
-            return_value = {"msg_title": "Сообщение",
-                            "msg": "Добавлено новое оборудование!"}, 200
+            if "search_info" in request.form.to_dict().keys():
+                equipment = self.model.search(
+                    db.session,
+                    request.form.to_dict().get("search_info"))
+                return_value = render_html(
+                    self.TEMPLATE, menu=menu,
+                    oborud=equipment,
+                    uri=self.URI,
+                    title=self.title,
+                    table_titles=self.table_titles,
+                    add_option=DBManager.RULES[self.model.__name__]["INSERT"],
+                    up_option=DBManager.RULES[self.model.__name__]["UPDATE"],
+                    del_option=DBManager.RULES[self.model.__name__]["DELETE"])
+            else:
+                db.session.add(self.schema.load(request.json, session=db.session))
+                db.session.commit()
+                return_value = {"msg_title": "Сообщение",
+                                "msg": "Добавлено новое оборудование!"}, 200
         except Exception as ex:
             return_value = {"msg_title": "Ошибка",
                             "msg": str(ex)}, 400
@@ -146,10 +161,24 @@ class EternalNumbersResource(Resource):
 
     def post(self):
         try:
-            db.session.add(self.schema.load(request.json, session=db.session))
-            db.session.commit()
-            return_value = {"msg_title": "Сообщение",
-                            "msg": "Добавлен новый номер!"}, 200
+            if "search_info" in request.form.to_dict().keys():
+                equipment = self.model.search(
+                    db.session,
+                    request.form.to_dict().get("search_info"))
+                return_value = render_html(
+                    self.TEMPLATE, menu=menu,
+                    oborud=equipment,
+                    uri=self.URI,
+                    title=self.title,
+                    table_titles=self.table_titles,
+                    add_option=DBManager.RULES[self.model.__name__]["INSERT"],
+                    up_option=DBManager.RULES[self.model.__name__]["UPDATE"],
+                    del_option=DBManager.RULES[self.model.__name__]["DELETE"])
+            else:
+                db.session.add(self.schema.load(request.json, session=db.session))
+                db.session.commit()
+                return_value = {"msg_title": "Сообщение",
+                                "msg": "Добавлен новый номер!"}, 200
         except Exception as ex:
             return_value = {"msg_title": "Ошибка",
                             "msg": str(ex)}, 400
