@@ -5,21 +5,20 @@
     <title>Ошибка</title>
 
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/authentication_style.css' )}}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/clear.css' )}}">
     <meta charset="UTF-8">
 </head>
 
 <body>
 
-    <div class="authenticatication_area">
+    <div class="auth_area">
         <div class="img_block">
             <img src="{{ url_for('static', filename='images/v.jpg' )}}">
         </div>
         <div class="form_block">
-            
-            <p style="font-size: 30px; font-family: arial; margin-bottom: 10px;">{{er_msg}}</p>
+            <p style="font-family: arial; margin-bottom: 10px;">{{er_msg}}</p>
 
             <a href="/" class="ok_btn" >На авторизацию</a>
-           
         </div>
 
     </div>
