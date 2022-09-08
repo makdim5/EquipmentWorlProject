@@ -77,21 +77,16 @@ class EquipmentResource(Resource):
                 equipment = self.model.search(
                     db.session,
                     request.form.to_dict().get("search_info"))
-                if len(equipment):
-                    return_value = render_html(
+                return_value = render_html(
                         self.TEMPLATE, menu=menu,
-                        oborud=equipment,
+                        oborud=equipment if len(equipment) else EquipmentService.fetch_all(db.session, self.model),
                         uri=self.URI,
                         title=self.title,
                         table_titles=self.table_titles,
                         add_option=DBManager.RULES[self.model.__name__]["INSERT"],
                         up_option=DBManager.RULES[self.model.__name__]["UPDATE"],
                         del_option=DBManager.RULES[self.model.__name__]["DELETE"])
-                else:
-                    return_value = {"msg_title": "Сообщение",
-                                    "msg": "Система не нашла данные "
-                                           "по вашему запросу"
-                                           f"\'{request.form.to_dict().get('search_info')}\'", }
+
             else:
                 db.session.add(self.schema.load(request.json, session=db.session))
                 db.session.commit()
@@ -171,21 +166,16 @@ class EternalNumbersResource(Resource):
                 equipment = self.model.search(
                     db.session,
                     request.form.to_dict().get("search_info"))
-                if len(equipment):
-                    return_value = render_html(
+                return_value = render_html(
                         self.TEMPLATE, menu=menu,
-                        oborud=equipment,
+                        numbers=equipment if len(equipment) else EternalNumbersService.fetch_all(db.session,self.model),
                         uri=self.URI,
                         title=self.title,
                         table_titles=self.table_titles,
                         add_option=DBManager.RULES[self.model.__name__]["INSERT"],
                         up_option=DBManager.RULES[self.model.__name__]["UPDATE"],
                         del_option=DBManager.RULES[self.model.__name__]["DELETE"])
-                else:
-                    return_value = {"msg_title": "Сообщение",
-                                    "msg": "Система не нашла данные "
-                                           "по вашему запросу"
-                                           f"\'{request.form.to_dict().get('search_info')}\'", }
+
             else:
                 db.session.add(self.schema.load(request.json, session=db.session))
                 db.session.commit()
