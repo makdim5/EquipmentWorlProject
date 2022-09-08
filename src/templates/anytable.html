@@ -3,7 +3,12 @@
 
 <head>
     <title>{{ title }}</title>
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/anytable_style.css' ) }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css' ) }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/clear.css' ) }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/dropmenu.css' ) }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/table_style.css' ) }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/click_menu_style.css' ) }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/popup_style.css' ) }}">
     <meta charset="UTF-8">
     <meta name="viewpoint" content="width=display-width">
 
@@ -11,58 +16,54 @@
 
 <body class="content">
 
-<div class="title_place">
-    <div class="hamburger-menu">
-        <input id="menu__toggle" type="checkbox"/>
-        <label class="menu__btn" for="menu__toggle">
-            <span></span>
-        </label>
-        <ul class="menu__box">
+<div class="header">
+
+    <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">{{ title }}</button>
+        <div id="myDropdown" class="dropdown-content">
             {% for item in menu %}
                 {% if item == title %}
-                    <li><a class="menu__item" style="background-color: rgb(156, 197, 223, 0.3);"
-                           href="{{ item.url }}">{{ item.name }}</a></li>
+                    <a href="{{ item.url }}">{{ item.name }}</a>
                 {% else %}
-                    <li><a class="menu__item" href="{{ item.url }}">{{ item.name }}</a></li>
+                    <a href="{{ item.url }}">{{ item.name }}</a>
                 {% endif %}
             {% endfor %}
-        </ul>
+        </div>
     </div>
-
-    <p class="table_name"><b>{{ title }}</b></p>
-    <a href="/" class="table_name" >Выход</a>
     {% block find %} {% endblock %}
+    <a href="/" class="exit_name">Выход из системы</a>
 
 </div>
 
-<div class="table_place">
-    <table class="table">
-        <thead>
-        <tr>
-            {% for item in table_titles %}
-                <th>{{ item }}</th>
-            {% endfor %}
-        </tr>
-        </thead>
-        <tbody>
-        {% block content %}
+<div class="area">
+    <div class="table_place">
+        <table class="table">
+            <thead>
+            <tr>
+                {% for item in table_titles %}
+                    <th>{{ item }}</th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            {% block content %}
 
-        {% endblock %}
-        </tbody>
+            {% endblock %}
+            </tbody>
 
-        <ul class="right-click-menu">
-            {% if add_option %}
-                 <li id="l3"><a href="#addpopup">Добавить</a></li>
-            {% endif %}
-            {% if up_option %}
-                <li id="l1"><a href="#updatepopup">Обновить</a></li>
-            {% endif %}
-            {% if del_option %}
-                <li id="l2"><a href="#deletepopup">Удалить</a></li>
-            {% endif %}
-        </ul>
-    </table>
-
+            <ul class="right-click-menu">
+                {% if add_option %}
+                    <li id="l3"><a href="#addpopup">Добавить</a></li>
+                {% endif %}
+                {% if up_option %}
+                    <li id="l1"><a href="#updatepopup">Обновить</a></li>
+                {% endif %}
+                {% if del_option %}
+                    <li id="l2"><a href="#deletepopup">Удалить</a></li>
+                {% endif %}
+            </ul>
+        </table>
+    </div>
 </div>
 
 <div id="addpopup" class="popup  popup_link">
@@ -105,36 +106,9 @@
     </div>
 </div>
 
-
-<script>
-    const menuArea = document.querySelector("tbody");
-    const menu = document.querySelector(".right-click-menu");
-
-    menuArea.addEventListener("contextmenu", event => {
-
-        if (event.target.closest('tr')) {
-            window.tr = event.target.closest('tr');
-        }
-        event.preventDefault();
-
-        menu.style.top = `${event.clientY}px`;
-        menu.style.left = `${event.clientX}px`;
-        menu.classList.add("active");
-    }, false);
-
-    document.addEventListener("click", event => {
-        if (event.button !== 2) {
-            menu.classList.remove("active");
-        }
-    }, false);
-
-    menu.addEventListener("click", event => {
-        event.stopPropagation();
-    }, false);
-
-
-</script>
-
+<script src="{{ url_for('static', filename='js/dropmenu_script.js' ) }}"></script>
+<script src="{{ url_for('static', filename='js/clickmenu_script.js' ) }}"></script>
+<script src="{{ url_for('static', filename='js/timer.js' ) }}"></script>
 {% block user_script %} {% endblock %}
 
 </body>

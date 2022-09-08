@@ -1,0 +1,59 @@
+/*Context menu*/
+.right-click-menu {
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    list-style: none;
+    background: white;
+    border: none;
+    border-radius: 2px;
+    box-shadow: 10px 12px 48px 0px rgba(0, 0, 0, 0.48);
+    -webkit-box-shadow: 10px 12px 48px 0px rgba(0, 0, 0, 0.48);
+    -moz-box-shadow: 10px 12px 48px 0px rgba(0, 0, 0, 0.48);
+    display: none;
+    opacity: 0;
+    /*Элемент полностью прозрачный (невидимый)*/
+
+    animation: show 0.5s 1;
+    /* Указываем название анимации, её время и количество повторов*/
+    animation-fill-mode: forwards;
+    /* Чтобы элемент оставался в конечном состоянии анимации */
+
+    
+
+}
+
+.right-click-menu a{
+    color: black;
+    border: none;
+    text-decoration: none;
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+        filter: blur(4px);
+    }
+
+    100% {
+        opacity: 1;
+        filter: blur(0px);
+    }
+}
+
+.right-click-menu.active {
+    display: block;
+}
+
+.right-click-menu li {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+    color: black;
+
+}
+
+.right-click-menu li:hover {
+    background: #E2F0F9;
+}
